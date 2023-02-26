@@ -31,7 +31,7 @@ public class BankService {
      * @param customer
      * @ return void
      */
-    public void addCustomer(Customer customer) {
+    public void addCustomer(Customer customer) {    // TESTED
         customers.add(customer);
     }
 
@@ -39,7 +39,7 @@ public class BankService {
      * This is a method which returns the number of object currently present in the banking class.
      * @return int(size of arraylist in the bank service class)
      */
-    public int getSizeOfInstanceArrayList() {
+    public int getSizeOfInstanceArrayList() {   // Tested
         return customers.size();
     }
 
@@ -69,7 +69,7 @@ public class BankService {
         }
         return -1;
     }
-
+    
     /**
      * This is a public method so that Customer can check is the account with the email and password they are providing is exist or not.
      * @param accountNumber
@@ -84,5 +84,10 @@ public class BankService {
         }
         // System.out.println("Account do not exist");
         return false;
+    }
+
+    // for test purpose
+    public Customer getArraylist(int index) {
+        return customers.get(index);
     }
 }
