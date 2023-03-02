@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: org.rashmi.service.BankServiceTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.046 s <<< FAILURE! - in org.rashmi.service.BankServiceTest
+org.rashmi.service.BankServiceTest.testAddBalanceForInValidUser  Time elapsed: 0.011 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected java.lang.RuntimeException to be thrown, but nothing was thrown.
+	at org.rashmi.service.BankServiceTest.testAddBalanceForInValidUser(BankServiceTest.java:83)
+
