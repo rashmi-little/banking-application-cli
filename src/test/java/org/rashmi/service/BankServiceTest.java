@@ -1,6 +1,9 @@
 package org.rashmi.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
@@ -15,25 +18,29 @@ public class BankServiceTest {
 
         @Test
         void testIsAccountExist() {
-
+                assertTrue(bankService.isAccountExist("123456789", "Bhai"));
+                assertTrue(bankService.isAccountExist("12345678", "banty"));
+                assertFalse(bankService.isAccountExist("12345678", "Banty"));
+                assertFalse(bankService.isAccountExist("12345678afda", "Banty"));
         }
 
         @BeforeEach
         private void addData() {
                 customers = new ArrayList<>();
-                bankService = new BankService();
 
-                customers.add(new Customer(Helper.getRandomNumber(11), "Maguni sahoo", "maguni69@gmail.com",
+                customers.add(new Customer("123456789", "Maguni sahoo", "maguni69@gmail.com",
                                 "985690424",
                                 "Bhai", 10000));
 
-                customers.add(new Customer(Helper.getRandomNumber(11), "Smruti Ranjan Nayak", "smruti67@gmail.com",
+                customers.add(new Customer("12345678", "Smruti Ranjan Nayak", "smruti67@gmail.com",
                                 "905699424",
                                 "banty", 1000));
 
                 customers.add(
                                 new Customer(Helper.getRandomNumber(11), "Prangya", "prangya@gmail.com", "9876543210",
                                                 "lizu", 3000));
+
+                bankService = new BankService(customers);
         }
 
         /**
@@ -44,19 +51,36 @@ public class BankServiceTest {
          * value get added the our data raeches its
          * destinition.
          */
-        
+
         @Test
         void testAddCustomer() {
-                BankService ref = new BankService(customers);
-                assertEquals(customers.size(), ref.getSizeOfInstanceArrayList());
-                assertEquals(customers.get(0), ref.getArraylist(0));
-                assertEquals(customers.get(1), ref.getArraylist(1));
-                assertEquals(customers.get(2), ref.getArraylist(2));
+                Customer customer = new Customer(Helper.getRandomNumber(11), "Gudu", "Biswa123@gmail.com", "12321313",
+                                "Biswa123", 37000);
+                int oldSize = customers.size();
+                bankService.addCustomer(customer);
+                assertEquals(oldSize + 1, bankService.getSizeOfInstanceArrayList());
         }
 
         @Test
         void testGetSizeOfInstanceArrayList() {
-                BankService ref = new BankService(customers);
-                assertEquals(customers.size(), ref.getSizeOfInstanceArrayList());
+                assertEquals(customers.size(), bankService.getSizeOfInstanceArrayList());
+        }
+
+        @Test
+        void testAddBalanceForValidUser() {
+                String accountNumber = "12345678";
+                int position = bankService.isAccountExist(accountNumber);
+
+                double oldBalance = customers.get(position).getCurrentBalance();
+                bankService.addBalance(accountNumber, 1000);
+                assertEquals(oldBalance + 1000, customers.get(position).getCurrentBalance());
+
+        }
+
+        @Test
+        void testAddBalanceForInValidUser() {
+                String accountNumber = "123456780";
+                assertThrows(RuntimeException.class, () -> bankService.addBalance(accountNumber, 100));
+
         }
 }
